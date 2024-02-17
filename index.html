@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <link href="style.css" rel="stylesheet"/>
+    <script src="addRepository.js"></script>
+    <script src="index.js"></script>
+
+</head>
+<body>
+    <section class="wrapper">
+        <div class="input-container">
+            <input class="input" placeholder="Введите запрос">
+            <div class="autoList-container">
+              <ul class="autoList-list">
+              </ul>
+            </div>
+        </div>
+
+        <div class="repositories-container">
+            <ol class="repositories-list">
+            </ol>
+        </div>
+    </section>
+
+<script type="module">
+
+import { Octokit, App } from "https://esm.sh/octokit";
+
+const octokit = new Octokit({
+  auth: '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'
+})
+
+
+
+let repositoriesList = [];
+let autoList = document.querySelector('.autoList-list')
+const input = document.querySelector('.input');
+const repoList = document.querySelector('.repositories-list')
+const repoContainer = document.querySelector('.repositories-container')
+let timerId = false;
+
+
+
+async function getRepositories(e, inputElem, listLength) {
+  try {
+        let repositories = await octokit.request('GET /search/repositories', {
+          accept: "application/vnd.github+json",
+          q: inputElem.value,
+          per_page: 10,
+      })
+        repositoriesList = repositories['data']['items'];
+        await createAutoListItems(repositoriesList, listLength)
+    } catch(err) {
+      return
+    }
+}
+
+input.addEventListener('input', (event) => {
+    if(timerId) {
+      clearTimeout(timerId)
+    }
+    timerId = setTimeout( () => {
+      
+        if(input.value != '') getRepositories(event, input, 5)
+        else return
+
+    }, 300)
+})
+
+function createAutoListItems(array, listLength) {
+    while(autoList.firstChild) {
+      autoList.removeChild(autoList.firstChild)
+    }
+    for(let i=0; i<listLength; i++){
+        let li = document.createElement('li');
+        li.classList.add('autoList-item')
+        let span = document.createElement('span');
+        span.classList.add('autoList-text');
+        span.textContent = array[i]['full_name'];
+        li.appendChild(span);
+        li.addEventListener('click', (event) => {
+          addRepository(array[i], repoList, deleteRepository)
+        })
+        autoList.appendChild(li);
+    }
+
+}
+
+function deleteRepository(e) {
+    e.target.parentElement.remove()
+}
+
+
+
+
+
+
+
+</script>
+</body>

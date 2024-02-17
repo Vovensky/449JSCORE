@@ -1,0 +1,143 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: gray;
+}
+
+.wrapper {
+    width: 20%;
+    min-width: 1272px;
+    min-height: 1480px;
+    margin: 0 auto;
+}
+
+.input-container, .repositories-container {
+    width: 60%;
+    background: white;
+    margin: 0 auto;
+    min-height: 100px;
+    padding: 20px;
+}
+
+
+
+.input {
+    width: 100%;
+    height: 48px;
+    font-size: 40px;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    background-color: #FFFDD0
+}
+
+.autoList-list {
+    text-decoration: none;
+    list-style: none;
+    margin:0;
+    padding: 0;
+    border-collapse: collapse;
+}
+
+.autoList-item {
+    width: 100%;
+    height: 40px;
+    border: 2px solid black;
+    display: flex;
+    align-items: left;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-top: 0;
+    border-bottom: 3px solid black; 
+}
+
+.autoList-item:first-child {
+    border-top: 3px solid black;
+}
+
+.autoList-text {
+    font-size: 32px;
+
+}
+
+.repositories-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.repositories-list {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.repositoriesItem {
+    width: 100%;
+    background-color: white;
+    min-height: 100px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    align-items: center;
+    transition: background-color 0.5s;
+}
+
+.repositoriesItem:hover {
+    background-color: hotpink;
+}
+
+.repositoriesText {
+    font-size: 24px;
+}
+
+.closeButton {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    padding: 0;
+    border: 0;
+    position: relative;
+    background-color: rgba(0,0,0,0);
+    transform: rotate(45deg);
+    transition: transform 1s;
+
+}
+
+.closeButton:hover {
+    transform: rotate(360deg)
+}
+
+.closeButton::after {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 2px;
+    height:32px;
+    background-color: red;
+    transform: translate(28px, 14px);
+    transition: background-color 1.0s
+    
+}
+
+.closeButton::before {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 2px;
+    height:32px;
+    rotate: 90deg;
+    transform: translate(14px, -28px);
+    background-color: red;
+}
+
+.closeButton:hover::after {
+    background-color: rgba(0,0,0,0)
+}
+
+.divWrapper {
+    margin-left: 20px;
+}
+
