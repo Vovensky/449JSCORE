@@ -26,7 +26,7 @@
 import { Octokit, App } from "https://esm.sh/octokit";
 
 const octokit = new Octokit({
-  auth: ' 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'
+  auth: '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'
 })
 
 
@@ -41,17 +41,19 @@ let timerId = false;
 
 
 async function getRepositories(e, inputElem, listLength) {
-  try {
-        let repositories = await octokit.request('GET /search/repositories', {
+
+    try {
+      let repositories = await octokit.request('GET /search/repositories', { //добавить try catch
           accept: "application/vnd.github+json",
           q: inputElem.value,
           per_page: 10,
       })
         repositoriesList = repositories['data']['items'];
         await createAutoListItems(repositoriesList, listLength)
-    } catch(err) {
-      return
+    }catch(err) {
+      alert(`Нет результатов`)
     }
+
 }
 
 input.addEventListener('input', (event) => {
@@ -59,17 +61,13 @@ input.addEventListener('input', (event) => {
       clearTimeout(timerId)
     }
     timerId = setTimeout( () => {
-      
+        clearRepositoriesList(autoList)
         if(input.value != '') getRepositories(event, input, 5)
-        else return
 
-    }, 300)
+    }, 500)
 })
 
 function createAutoListItems(array, listLength) {
-    while(autoList.firstChild) {
-      autoList.removeChild(autoList.firstChild)
-    }
     for(let i=0; i<listLength; i++){
         let li = document.createElement('li');
         li.classList.add('autoList-item')
@@ -88,6 +86,13 @@ function createAutoListItems(array, listLength) {
 function deleteRepository(e) {
     e.target.parentElement.remove()
 }
+
+function clearRepositoriesList(list) {
+  while(list.firstChild) {
+      list.removeChild(autoList.firstChild) 
+  }
+}
+
 
 
 
