@@ -77,7 +77,7 @@ function createAutoListItems(array, listLength) {
         li.classList.add('autoList-item')
         let span = document.createElement('span');
         span.classList.add('autoList-text');
-        span.textContent = array[i]['name'];
+        span.textContent = array[i]['full_name'];
         li.appendChild(span);
         li.addEventListener('click', (event) => {
           addRepository(array[i], repoList, deleteRepository)
