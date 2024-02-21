@@ -36,10 +36,10 @@ let timerId = false;
 
 
 
-async function getRepositories(e, inputElem, listLength) {
+async function getRepositories(e, text, listLength) {
 
     try {
-      let repositories = await fetch(`https://api.github.com/search/repositories?q=${inputElem.value}`, {
+      let repositories = await fetch(`https://api.github.com/search/repositories?q=${text}&sort=stars&per_page=${listLength}`, {
           method: 'GET',
           headers: {
             Accept: "application/vnd.github+json",
@@ -49,12 +49,11 @@ async function getRepositories(e, inputElem, listLength) {
       })
 
       let repositoriesBase = await repositories.json();
-      console.log(repositoriesBase)
+
 
         repositoriesList = repositoriesBase['items'];
         await createAutoListItems(repositoriesList, listLength)
     }catch(err) {
-      console.log(err)
       alert(`Нет результатов`)
     }
 
@@ -64,11 +63,23 @@ input.addEventListener('input', (event) => {
     if(timerId) {
       clearTimeout(timerId)
     }
+    let newValue = input.value;
     timerId = setTimeout( () => {
+        let text = input.value
         clearRepositoriesList(autoList)
-        if(input.value != '') getRepositories(event, input, 5)
+        if(input.value != '') {
+          getRepositories(event, text, 5)
+        }
+        
 
-    }, 500)
+    }, 600)
+
+})
+
+
+autoList.addEventListener('click', ()=> {
+  input.value = '';
+  clearRepositoriesList(autoList);
 })
 
 function createAutoListItems(array, listLength) {
