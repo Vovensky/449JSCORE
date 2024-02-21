@@ -33,6 +33,7 @@ const input = document.querySelector('.input');
 const repoList = document.querySelector('.repositories-list')
 const repoContainer = document.querySelector('.repositories-container')
 let timerId = false;
+let ol = document.querySelector('.repositories-list')
 
 
 
@@ -80,7 +81,7 @@ input.addEventListener('input', (event) => {
 autoList.addEventListener('click', ()=> {
   input.value = '';
   clearRepositoriesList(autoList);
-})
+}) 
 
 function createAutoListItems(array, listLength) {
     for(let i=0; i<listLength; i++){
@@ -91,15 +92,21 @@ function createAutoListItems(array, listLength) {
         span.textContent = array[i]['full_name'];
         li.appendChild(span);
         li.addEventListener('click', (event) => {
-          addRepository(array[i], repoList, deleteRepository)
+          addRepository(array[i], repoList)
         })
         autoList.appendChild(li);
     }
 
 }
 
+ol.addEventListener('click', (event) => {
+  if(event.target.className=='closeButton') {
+    console.log(event.target)
+    deleteRepository(event.target)}
+})
+
 function deleteRepository(e) {
-    e.target.parentElement.remove()
+    e.parentElement.remove()
 }
 
 function clearRepositoriesList(list) {

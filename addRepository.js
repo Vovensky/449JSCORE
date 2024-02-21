@@ -1,4 +1,4 @@
-function addRepository(object, node, delCallBack) {
+function addRepository(object, node) {
     let keys = ['name', 'stargazers_count', 'owner']
     let li = document.createElement('li');
     li.classList.add('repositoriesItem');
@@ -18,9 +18,5 @@ function addRepository(object, node, delCallBack) {
       divText.textContent = `${title}: ${value}`;
       divWrapper.appendChild(divText)
     }
-
-    closeButton.addEventListener('click', (event) => {
-        delCallBack(event);
-    })
     node.appendChild(li)
 }
